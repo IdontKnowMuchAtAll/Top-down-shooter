@@ -1,0 +1,131 @@
+tree("Root")
+	fallback
+		tree("Attack")
+		tree("Position")
+
+
+tree("Position")
+	sequence
+		SetMoveDirection
+		Walk
+
+tree("Attack")
+	fallback
+		sequence
+			HasLocked_Player
+			IsHealthPercentHigherThan(60.0)
+			random
+				tree("Dash")
+				tree("ShootLaser")
+		tree("shootPatterns")
+
+
+
+Tree("Dash")
+	sequence
+		StartDash
+		Dash
+		random
+			sequence
+				Wait(1.0)
+			sequence
+				Wait(1.0)
+				MoveTo_Middle
+
+Tree("shootPatterns")
+	sequence
+		IsHealthPercentLowerThan(60.0)
+		StopMovement
+		sequence
+			random
+				Tree("ShootPattern1")
+				Tree("ShootPattern2")
+				Tree("ShootPattern3")
+				Tree("ShootPattern4")
+			random
+				MoveTo_Point(-2.0,2.0)
+				MoveTo_Point(-2.0,-2.0)
+				MoveTo_Point(2.0,2.0)
+				MoveTo_Point(2.0,-2.0)
+			WaitRandom(2.0,3.0)
+
+Tree("ShootPattern1")
+	repeat(3)
+		sequence
+			ShootPattern1
+			Wait(0.5)
+			ShootPattern2
+			Wait(0.5)
+
+Tree("ShootPattern2")
+	repeat(4)
+		random
+			parallel
+				ShootPatternFromTo_Angle(0.0, 45.0, 2.0, 0.05, 0)
+				ShootPatternFromTo_Angle(90.0, 135.0, 2.0, 0.05, 1)
+				ShootPatternFromTo_Angle(180.0, 225.0, 2.0, 0.05, 2)
+				ShootPatternFromTo_Angle(270.0, 315.0, 2.0, 0.05, 3)
+				ShootPatternFromTo_Angle(45.0, 90.0, 2.0, 0.05, 4)
+				ShootPatternFromTo_Angle(135.0, 180.0, 2.0, 0.05, 5)
+				ShootPatternFromTo_Angle(225.0, 270.0, 2.0, 0.05, 6)
+				ShootPatternFromTo_Angle(315.0, 360.0, 2.0, 0.05, 7)
+			parallel
+				ShootPatternFromTo_Angle(45.0, 0.0, -2.0, 0.05, 0)
+				ShootPatternFromTo_Angle(135.0, 90.0, -2.0, 0.05, 1)
+				ShootPatternFromTo_Angle(225.0, 180.0, -2.0, 0.05, 2)
+				ShootPatternFromTo_Angle(315.0, 270.0, -2.0, 0.05, 3)
+				ShootPatternFromTo_Angle(90.0, 45.0, -2.0, 0.05, 4)
+				ShootPatternFromTo_Angle(180.0, 135.0, -2.0, 0.05, 5)
+				ShootPatternFromTo_Angle(270.0, 225.0, -2.0, 0.05, 6)
+				ShootPatternFromTo_Angle(360.0, 315.0, -2.0, 0.05, 7)
+
+Tree("ShootPattern3")
+	repeat(4)
+		random
+			ShootPatternFromTo_Angle(0.0, 360.0, 15.0, 0.01, 0)
+			ShootPatternFromTo_Angle(360.0, 0.0, -15.0, 0.01, 0)
+			ShootPatternFromTo_Angle(5.0, 365.0, 15.0, 0.01, 0)
+			ShootPatternFromTo_Angle(365.0, 0.0, -15.0, 0.01, 0)
+
+Tree("ShootPattern4")
+	sequence
+		ChangeFireSpeed(10.0)
+		random
+			repeat(2)
+				sequence
+					parallel
+						ShootPatternFromTo_Angle(0.0, 360.0, 15.0, 0.03, 0)
+						ShootPatternFromTo_Angle(45.0, 405.0, 15.0, 0.03, 1)
+						ShootPatternFromTo_Angle(90.0, 450.0, 15.0, 0.03, 2)
+						ShootPatternFromTo_Angle(135.0, 495.0, 15.0, 0.03, 3)
+					Wait(0.6)
+					parallel
+						ShootPatternFromTo_Angle(22.5, 382.5, 15.0, 0.03, 0)
+						ShootPatternFromTo_Angle(67.5, 427.5, 15.0, 0.03, 1)
+						ShootPatternFromTo_Angle(112.5, 472.5, 15.0, 0.03, 2)
+						ShootPatternFromTo_Angle(157.5, 517.5, 15.0, 0.03, 3)
+					Wait(0.6)
+			repeat(2)
+				sequence
+					parallel
+						ShootPatternFromTo_Angle(360.0, 0.0, -15.0, 0.03, 0)
+						ShootPatternFromTo_Angle(405.0, 45.0, -15.0, 0.03, 1)
+						ShootPatternFromTo_Angle(450.0, 90.0, -15.0, 0.03, 2)
+						ShootPatternFromTo_Angle(495.0, 135.0, -15.0, 0.03, 3)
+					Wait(0.6)
+					parallel
+						ShootPatternFromTo_Angle(382.5, 22.5, -15.0, 0.03, 0)
+						ShootPatternFromTo_Angle(427.5, 67.5, -15.0, 0.03, 1)
+						ShootPatternFromTo_Angle(472.5, 112.5, -15.0, 0.03, 2)
+						ShootPatternFromTo_Angle(517.5, 157.5, -15.0, 0.03, 3)
+					Wait(0.6)
+		ChangeFireSpeed(20.0)
+
+
+
+
+Tree("ShootLaser")
+	sequence
+		StartLaser
+		ShootLaser
+		Wait(1.0)
